@@ -1,15 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { FlagsProvider } from "./feature-flag/flag";
+import { DOMAIN_1, DOMAIN_2 } from "./current-domain";
+import { Rule } from "./types/rule";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
+const currentDomain = DOMAIN_1;
+
+const flags: Rule[] = [
+  {
+    domain: DOMAIN_1,
+    pages: {
+      values: ["reports/create_dashboard", "reports/existing_dashboard"],
+      isActivated: true,
+    },
+  },
+  {
+    domain: DOMAIN_2,
+    pages: {
+      values: ["overview", "audience"],
+      isActivated: true,
+    },
+  },
+];
+
 root.render(
   <React.StrictMode>
-    <App />
+    <FlagsProvider domain={currentDomain} value={flags}>
+      <App />
+    </FlagsProvider>
   </React.StrictMode>
 );
 
