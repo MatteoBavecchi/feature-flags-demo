@@ -14,20 +14,22 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
 
         <Flags
-          authorizedFlags={["vipOnly"]}
-          renderOn={(flag) => <h1>VIP (renderProps)</h1>}
-          renderOff={() => <h1>NO VIP (renderProps)</h1>}
+          currentPage="audience"
+          renderOn={() => <h1>✅ Showing Audience</h1>}
+          renderOff={() => <h1>🚫 Not showing audience</h1>}
         />
-
-        <Flags authorizedFlags={["vipOnly"]}>
-          <h1>VIP (children props)</h1>
+        <br></br>
+        <Flags currentPage="reports/create_dashboard">
+          <h1>✅ Create dashboards</h1>
         </Flags>
 
-        <Flags
-          authorizedFlags={["adminOnly", "vipOnly"]}
-          exactFlags
-          renderOn={() => <h1>Admin and VIP (renderProps)</h1>}
-        />
+        <Flags currentPage="reports/existing_dashboard">
+          <h1>✅ Existing dashboards</h1>
+        </Flags>
+
+        <Flags currentPage="overview">
+          <h1>✅ Overview</h1>
+        </Flags>
       </div>
     </div>
   );

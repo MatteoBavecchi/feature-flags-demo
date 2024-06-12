@@ -3,15 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { FlagsProvider } from "./feature-flag/flag";
-import { DOMAIN_1, DOMAIN_2 } from "./current-domain";
+import { DOMAIN_1, DOMAIN_2, DOMAIN_3 } from "./current-domain";
 import { Rule } from "./types/rule";
+import { FlagsProvider } from "./feature-flag/flags-provider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-const currentDomain = DOMAIN_1;
+const currentDomain = DOMAIN_2;
 
 const flags: Rule[] = [
   {
@@ -32,7 +32,7 @@ const flags: Rule[] = [
 
 root.render(
   <React.StrictMode>
-    <FlagsProvider domain={currentDomain} value={flags}>
+    <FlagsProvider domain={currentDomain} rules={flags}>
       <App />
     </FlagsProvider>
   </React.StrictMode>

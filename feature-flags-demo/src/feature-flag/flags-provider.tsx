@@ -1,6 +1,6 @@
 import { ReactNode, FC } from "react";
-import { FeatureFlags } from "./flag";
 import { Rule } from "../types/rule";
+import { FFContext } from "./flag-context";
 
 interface FlagsProviderProps {
   rules: Rule[];
@@ -14,8 +14,8 @@ export const FlagsProvider: FC<FlagsProviderProps> = ({
   domain,
 }) => {
   return (
-    <FeatureFlags.Provider value={{ rules, domain }}>
+    <FFContext.Provider value={{ rules, domain }}>
       {children}
-    </FeatureFlags.Provider>
+    </FFContext.Provider>
   );
 };

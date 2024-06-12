@@ -1,43 +1,37 @@
 import { useContext, ReactNode, FC } from "react";
-import { Rule } from "../types/rule";
+import { Rule, RuleOption } from "../types/rule";
 import { FFContext } from "./flag-context";
+import { Page } from "../types/page";
 
 interface FlagsProps {
-  authorizedFlags: string[];
-  exactFlags?: boolean;
+  currentPage: Page;
   renderOn?: (matchingFlags: Rule[]) => ReactNode;
   renderOff?: (matchingFlags: Rule[]) => ReactNode;
   children?: ReactNode;
 }
 
 export const Flags: FC<FlagsProps> = ({
-  authorizedFlags,
-  exactFlags = false,
+  currentPage,
   renderOn = () => null,
   renderOff = () => null,
   children,
 }) => {
-  const flags = useContext(FFContext);
+  const { domain, rules } = useContext(FFContext);
 
-  const matchingFlags = flags.filter(
-    (flag) => flag.isActive && authorizedFlags.includes(flag.name)
+  const matchingPages = rules.reduce<RuleOption<Page> | undefined>(
+    (acc, curr) => (curr.domain === domain ? curr.pages : acc),
+    undefined
   );
 
   const resolveRender = (matchingFlags: Rule[]) => {
     return children ? children : renderOn(matchingFlags);
   };
 
-  if (exactFlags) {
-    return matchingFlags.length === authorizedFlags.length ? (
-      <>{resolveRender(matchingFlags)}</>
-    ) : (
-      <>{renderOff(matchingFlags)}</>
-    );
-  } else {
-    return matchingFlags.length ? (
-      <>{resolveRender(matchingFlags)}</>
-    ) : (
-      <>{renderOff(matchingFlags)}</>
-    );
-  }
+  const shouldRenderPage = matchingPages?.values.includes(currentPage);
+
+  return shouldRenderPage && matchingPages?.isActivated ? (
+    <>{resolveRender(rules)}</>
+  ) : (
+    <>{renderOff(rules)}</>
+  );
 };
