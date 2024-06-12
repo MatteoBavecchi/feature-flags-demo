@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-const currentDomain = DOMAIN_2;
+const currentDomain = DOMAIN_1;
 
 const flags: Rule[] = [
   {
